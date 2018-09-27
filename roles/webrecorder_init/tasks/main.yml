@@ -1,21 +1,21 @@
-  - name: 'WR Clone'
+  - name: git checkout OpenDACHS Webrecorder fork
     git:
-      repo: 'https://github.com/webrecorder/webrecorder'
       dest: '{{ wr_dir }}'
-      version: 'master'
+      repo: 'https://github.com/PascalinDeZO/webrecorder'
+      version: 'od_master'
 
-  - name: 'Check if already inited (wr.env exists)'
+  - name: obtain stats of wr_env (exists if Webrecorder has been initialized)
     stat:
       path: '{{ wr_dir }}/wr.env'
     register: wr_env
 
-  - name: 'WR Init'
+  - name: initialize Webrecorder if wr_env does not exist
     command: ./init-default.sh
     args:
       chdir: '{{ wr_dir }}'
     when: wr_env.stat.exists == False
 
-  - name: 'WR Set Hostnames in Env'
+  - name: set APP_HOST and CONTENT_HOST in wr_env (overrides previous values)
     lineinfile:
       path: '{{ wr_dir }}/wr.env'
       regexp: '{{ item.regexp }}'
@@ -25,20 +25,16 @@
       - { regexp: 'APP_HOST=', replace: 'APP_HOST={{ wr_app_host }}' }
       - { regexp: 'CONTENT_HOST=', replace: 'CONTENT_HOST={{ wr_content_host }}' }
 
-  - name: 'WR Install Remote Browsers'
+  - name: pull image Webrecorder remote browsers
     docker_image:
       name: 'oldwebtoday/{{ item }}'
 
     with_items: '{{ wr_remote_browsers }}'
 
-  - name: 'WR Run Docker Compose'
+  - name: build image
     become: true
     become_user: "{{ ansible_user_id }}"
     docker_service:
-      project_src: '{{ wr_dir }}'
       build: yes
+      project_src: '{{ wr_dir }}'
       state: present
-
-
-
-
