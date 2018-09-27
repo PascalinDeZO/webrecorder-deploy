@@ -40,6 +40,5 @@
     - { role: geerlingguy.pip, become: true, become_user: root }
     - { role: certbot, become: true, become_user: root, when: "wr_app_host != ''" }
     - { role: geerlingguy.nginx, become: true, become_user: root, when: "wr_app_host != ''" }
-    - { role: geerlingguy.docker, become: true, become_user: root }
     - { role: webrecorder_init }
 
