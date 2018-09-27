@@ -1,9 +1,6 @@
+# from galaxy
+- src: geerlingguy.nginx
 - src: geerlingguy.pip
 
-#- src: geerlingguy.certbot
+# from GitHub
 - src: git+https://github.com/JeroenED/ansible-role-certbot.git
-
-- src: geerlingguy.nginx
-
-- src: geerlingguy.docker
-
