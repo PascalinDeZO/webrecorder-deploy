@@ -33,4 +33,4 @@ then
 	chown -R $CURR_USER ~/.ansible
 fi
 
-sudo -u $CURR_USER ansible-playbook -i inventory.ini playbook.yml --extra_vars $1
+sudo -u $CURR_USER ansible-playbook -i inventory.ini playbook.yml --extra-vars="$1"
