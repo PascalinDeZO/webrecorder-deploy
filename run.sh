@@ -24,7 +24,7 @@ fi
 echo "Enabling httpd_can_network_connect ..."
 sudo -u $CURR_USER setsebool -P httpd_can_network_connect on
 
-NGINX = $(ansible-galaxy list | sudo -u $CURR_USER grep nginx)
+ansible-galaxy list | sudo -u $CURR_USER grep nginx
 
 if [$? -ne 0];
 then
